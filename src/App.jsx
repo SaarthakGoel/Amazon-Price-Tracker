@@ -19,7 +19,7 @@ export default function App() {
     setError("");
     try{
       console.log(query)
-      const res = await fetch(`http://localhost:3500/search?query=${encodeURIComponent(query)}`);
+      const res = await fetch(`https://amazon-price-tracker-backend.onrender.com/search?query=${encodeURIComponent(query)}`);
       const data = await res.json();
 
       console.log("data" , data)

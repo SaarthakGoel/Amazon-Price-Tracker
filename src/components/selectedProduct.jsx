@@ -31,7 +31,7 @@ export default function SelectedProduct() {
     }
 
     try {
-      const response = await fetch('http://localhost:3500/track', { // Replace with your API endpoint
+      const response = await fetch('https://amazon-price-tracker-backend.onrender.com/track', { // Replace with your API endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
