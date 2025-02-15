@@ -1,23 +1,27 @@
 import React, { useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
 
-export default function SelectedProduct() {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const name = searchParams.get('name');
-  const price = searchParams.get('price');
-  const image = searchParams.get('image');
-  const link = searchParams.get('link');
+export default function SelectedProduct({setPop , name , price , image , link}) {
 
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [subscriptionError, setSubscriptionError] = useState(null);
 
+  function handleClosePop(){
+    const newPop = {
+      bool : false,
+      name : null,
+      price : null,
+      image : null,
+      link : null
+     }
+     setPop(newPop)
+  }
+
   if (!name || !price || !image) {
     return (
       <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center">
         <p className="text-2xl">Product not found.</p>
-        <button onClick={() => navigate('/')} className="mt-4 bg-emerald-500 px-6 py-3 rounded-lg hover:bg-emerald-600">Go Home</button>
+        <button onClick={handleClosePop} className="mt-4 bg-emerald-500 px-6 py-3 rounded-lg hover:bg-emerald-600">Go Home</button>
       </div>
     );
   }
@@ -31,7 +35,7 @@ export default function SelectedProduct() {
     }
 
     try {
-      const response = await fetch('https://amazon-price-tracker-backend.onrender.com/track', { // Replace with your API endpoint
+      const response = await fetch('https://pt-cheerio-back.onrender.com/track', { // Replace with your API endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,15 +56,15 @@ export default function SelectedProduct() {
   };
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen p-6 md:p-10 flex flex-col">
+    <div className="bg-gray-900 text-white min-h-screen z-20 p-6 md:p-10 flex flex-col">
       <div className="container mx-auto">
-      <button onClick={() => navigate(-1)} className="mb-4 bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600">
+      <button onClick={handleClosePop} className="mb-4 bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600">
         Go Back
       </button>
         <div className="bg-gray-800 p-8 rounded-lg shadow-md flex flex-col md:flex-row items-center gap-6">
           <img src={image} alt={name} className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-sm" />
           <div className="md:flex-grow text-center md:text-left">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">{name}</h2>
+            <h2 className="text-xl md:text-3xl font-bold mb-2">{name}</h2>
             <p className="text-2xl font-bold text-emerald-500 mb-4">₹{price}</p>
 
             {!subscribed ? (
@@ -83,7 +87,7 @@ export default function SelectedProduct() {
                 {subscriptionError && <p className="text-red-500 mt-2">{subscriptionError}</p>}
               </div>
             ) : (
-              <p className="text-emerald-500">You are now tracking the price of this product!</p>
+              <p className="text-emerald-500 text-xl md:text-2xl">Tracking Started 😊. Don't Worry , We will send you an email on {email} if the price drops.</p>
             )}
           </div>
         </div>
