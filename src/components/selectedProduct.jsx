@@ -26,6 +26,12 @@ export default function SelectedProduct({setPop , name , price , image , link}) 
     );
   }
 
+  const match = link.match(/\/dp\/(B[A-Z0-9]+)/);
+  if (!match) return "Invalid Amazon URL";
+
+  const productId = match[1];
+  const affiliateLink = `https://www.amazon.in/dp/${productId}?tag=pricetrack0e3-21`;
+
   const handleSubscribe = async () => {
     setSubscriptionError(null);
 
@@ -87,7 +93,10 @@ export default function SelectedProduct({setPop , name , price , image , link}) 
                 {subscriptionError && <p className="text-red-500 mt-2">{subscriptionError}</p>}
               </div>
             ) : (
+              <div>
               <p className="text-emerald-500 text-xl md:text-2xl">Tracking Started 😊. Don't Worry , We will send you an email on {email} if the price drops.</p>
+              <a className='text-4xl text-blue-700 font-bold' href={affiliateLink}>Check Now!</a>
+              </div>
             )}
           </div>
         </div>
