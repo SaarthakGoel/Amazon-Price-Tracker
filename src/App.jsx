@@ -9,7 +9,7 @@ export default function App() {
 
   const [products, setProducts] = useState([]);
   const [query, setQuery] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const [pop, setPop] = useState({
